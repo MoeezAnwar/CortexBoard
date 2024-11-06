@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What If... Machine</title>
+    <style>
+        /* Comic-style theme with background image */
+        body {
+            font-family: 'Comic Sans MS', sans-serif;
+            margin: 0;
+            height: 100vh;
+            background: url('hello.jpg') center center / cover no-repeat;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Dark comic overlay */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Adjust overlay opacity */
+            z-index: -1;
+        }
+
+        .container {
+            width: 80%;
+            max-width: 600px;
+            background: #333;
+            border: 5px solid #ffeb3b;
+            border-radius: 10px;
+            box-shadow: 5px 5px #888;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            color: #FFEB3B;
+            text-shadow: 2px 2px #333;
+        }
+
+        .input-group {
+            margin: 15px 0;
+        }
+
+        .input-group input {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 1em;
+            border: 2px solid #ffeb3b;
+            border-radius: 5px;
+            background-color: #222;
+            color: #ffeb3b;
+            box-shadow: 2px 2px #888;
+        }
+
+        .generate-btn {
+            margin-top: 20px;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            background-color: #FF4500;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 3px 3px #555;
+            transition: all 0.2s;
+        }
+
+        .generate-btn:hover {
+            background-color: #e63900;
+            box-shadow: 4px 4px #333;
+        }
+
+        .comic-bubble {
+            margin-top: 20px;
+            padding: 20px;
+            font-size: 1.5em;
+            color: #333;
+            background: #FFEB3B;
+            border-radius: 15px;
+            box-shadow: 3px 3px #888;
+            position: relative;
+            text-align: left;
+        }
+
+        .comic-bubble:after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 20%;
+            width: 0;
+            height: 0;
+            border: 15px solid transparent;
+            border-top-color: #FFEB3B;
+        }
+
+        .popup {
+            display: none;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffeb3b;
+            color: #333;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 5px 5px #888;
+            font-size: 1.3em;
+            z-index: 1000;
+            text-align: center;
+        }
+
+        .popup:before {
+            content: '💥';
+            font-size: 2em;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>What If... Machine</h1>
+    <div id="purpose" class="purpose"></div>
+    
+    <div class="input-group">
+        <label>Idea 1:</label>
+        <input type="text" id="idea1" placeholder="Enter your first idea">
+    </div>
+    <div class="input-group">
+        <label>Idea 2:</label>
+        <input type="text" id="idea2" placeholder="Enter your second idea">
+    </div>
+    <button class="generate-btn" onclick="generateWhatIf()">Generate What If!</button>
+    <div class="comic-bubble" id="result">
+        Your 'What If' scenario will appear here!
+    </div>
+    <!-- Popup for rapid clicks -->
+    <div class="popup" id="popup">
+        Hey, take it easy! The magic only works once a second... Give it a sec! 😂
+    </div>
+</div>
+
+<script type="module">
+    class Purpose {
+        constructor(text) {
+            this.text = text;
+        }
+
+        display() {
+            const purposeElement = document.getElementById("purpose");
+            if (purposeElement) {
+                purposeElement.innerHTML = this.text;
+            }
+        }
+    }
+
+    const purposeText = "Ever wonder what would happen if your wackiest ideas collided? Enter two concepts, and the What If... Machine will spin them together for a fresh twist! The goal? Pure fun and maybe a little inspiration.";
+    const purposeInstance = new Purpose(purposeText);
+    purposeInstance.display();
+</script>
+
+<script>
+    let lastClickTime = 0;
+    const popup = document.getElementById("popup");
+
+    function showPopup() {
+        popup.style.display = 'block';
+        setTimeout(() => {
+            popup.style.display = 'none';
+        }, 2000);
+    }
+
+    function correctSpelling(text) {
+        const wordDictionary = {
+            "space": "spice",
+            "chicken": "chimken",
+            "internet": "interwebs",
+            "science": "madness",
+            "cat": "kitteh",
+            "dog": "floof",
+            "pizza": "pizzazz",
+            "robot": "robodude",
+            "time": "thyme",
+            "computer": "magic box",
+            "alien": "little green dude",
+            "hero": "supah-hero",
+            "chef": "spatula wizard"
+        };
+        return text.split(" ").map(word => wordDictionary[word.toLowerCase()] || word).join(" ");
+    }
+
+    function generateWhatIf() {
+        const currentTime = Date.now();
+        
+        if (currentTime - lastClickTime < 1000) {
+            showPopup();
+            return;
+        }
+        
+        lastClickTime = currentTime;
+        
+        const idea1Input = document.getElementById("idea1");
+        const idea2Input = document.getElementById("idea2");
+
+        let idea1 = idea1Input.value.trim();
+        let idea2 = idea2Input.value.trim();
+
+        if (idea1 === "" || idea2 === "") {
+            document.getElementById("result").innerHTML = "Please enter both ideas!";
+            return;
+        }
+
+        idea1 = correctSpelling(idea1);
+        idea2 = correctSpelling(idea2);
+
+        const scenarios = [
+            `What if ${idea1} and ${idea2} opened a bakery together?`,
+            `What if ${idea1} was the ultimate dance partner for ${idea2}?`,
+            `Imagine ${idea1} trying to give ${idea2} life advice.`,
+            `What if ${idea1} and ${idea2} were locked in a time loop?`,
+            `What if ${idea1} hosted a roast for ${idea2}?`,
+            `Imagine ${idea1} and ${idea2} as undercover spies.`,
+            `What if ${idea1} could only talk in movie quotes to ${idea2}?`,
+            `What if ${idea1} taught ${idea2} the secrets of the universe?`,
+            `Imagine ${idea1} prank-calling ${idea2} every day.`,
+            `What if ${idea1} and ${idea2} competed in a talent show?`,
+            // Add more humorous phrases here!
+        ];
+
+        const whatIfScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
+        document.getElementById("result").innerHTML = whatIfScenario;
+    }
+</script>
+
+</body>
+</html>
