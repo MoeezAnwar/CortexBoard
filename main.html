@@ -129,6 +129,24 @@
             display: block;
             margin-bottom: 10px;
         }
+
+        footer {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #FFEB3B;
+            text-align: center;
+        }
+
+        footer p {
+            margin: 5px;
+        }
+
+        footer svg {
+            width: 30px;
+            height: 20px;
+            vertical-align: middle;
+            margin-left: 10px;
+        }
     </style>
 </head>
 <body>
@@ -221,7 +239,12 @@
         let idea2 = idea2Input.value.trim();
 
         if (idea1 === "" || idea2 === "") {
-            document.getElementById("result").innerHTML = "Please enter both ideas!";
+            document.getElementById("result").innerHTML = "🤔 Oops! You missed something! Enter both ideas to continue!";
+            return;
+        }
+
+        if (idea1 === idea2) {
+            document.getElementById("result").innerHTML = "😱 Hold up! These ideas are the SAME! Try some variety, buddy!";
             return;
         }
 
@@ -229,23 +252,91 @@
         idea2 = correctSpelling(idea2);
 
         const scenarios = [
-            `What if ${idea1} and ${idea2} opened a bakery together?`,
-            `What if ${idea1} was the ultimate dance partner for ${idea2}?`,
-            `Imagine ${idea1} trying to give ${idea2} life advice.`,
-            `What if ${idea1} and ${idea2} were locked in a time loop?`,
-            `What if ${idea1} hosted a roast for ${idea2}?`,
-            `Imagine ${idea1} and ${idea2} as undercover spies.`,
-            `What if ${idea1} could only talk in movie quotes to ${idea2}?`,
-            `What if ${idea1} taught ${idea2} the secrets of the universe?`,
-            `Imagine ${idea1} prank-calling ${idea2} every day.`,
-            `What if ${idea1} and ${idea2} competed in a talent show?`,
-            // Add more humorous phrases here!
+            `What if ${idea1} and ${idea2} opened a bakery together? 🍞`,
+            `What if ${idea1} was the ultimate dance partner for ${idea2}? 💃🕺`,
+            `Imagine ${idea1} trying to give ${idea2} life advice. 🤔💡`,
+            `What if ${idea1} and ${idea2} were locked in a time loop? ⏳`,
+            `What if ${idea1} hosted a roast for ${idea2}? 🔥`,
+            `Imagine ${idea1} and ${idea2} as undercover spies. 🕵️‍♂️🕵️‍♀️`,
+            `What if ${idea1} could only talk in movie quotes to ${idea2}? 🎬🎤`,
+            `What if ${idea1} taught ${idea2} the secrets of the universe? 🌌`,
+            `Imagine ${idea1} prank-calling ${idea2} every day. 🤪📞`,
+            `What if ${idea1} and ${idea2} competed in a talent show? 🎤🎭`,
+            `What if ${idea1} and ${idea2} formed a rock band? 🎸🎤`,
+            `What if ${idea1} could only communicate in emojis? 🤔📱😅`,
+            `What if ${idea1} and ${idea2} swapped lives for a week? 🏃‍♂️🏃‍♀️`,
+            `What if ${idea1} invented a time machine and sent ${idea2} to the future? ⏳🌟`,
+            `Imagine ${idea1} running for president of ${idea2}'s country. 🗳️🇺🇸`,
+            `What if ${idea1} could speak every language, but ${idea2} couldn't? 🌍💬`,
+            `What if ${idea1} and ${idea2} turned into cats for a day? 🐱🐾`,
+            `Imagine ${idea1} and ${idea2} as superhero sidekicks. 🦸‍♂️🦸‍♀️`,
+            `What if ${idea1} tried to sell ${idea2} a used car? 🚗💸`,
+            `What if ${idea1} became ${idea2}'s personal chef? 🍳🍔`,
+            `What if ${idea1} and ${idea2} went on a road trip together? 🚗🛣️`,
+            `What if ${idea1} could only tell jokes to ${idea2}? 🤣🎤`,
+            `What if ${idea1} started a rumor about ${idea2}? 📢💣`,
+            `What if ${idea1} and ${idea2} lived in a giant shoe? 👢🧸`,
+            `Imagine ${idea1} and ${idea2} as ghosts haunting a haunted mansion. 👻🏰`,
+            `What if ${idea1} was in charge of ${idea2}'s wardrobe? 👗👚`,
+            `What if ${idea1} gave ${idea2} an ancient artifact? 💎✨`,
+            `What if ${idea1} and ${idea2} were characters in a video game? 🎮👾`,
+            `What if ${idea1} could read ${idea2}'s mind? 🧠🔮`,
+            `What if ${idea1} taught ${idea2} how to fly? 🦅✈️`,
+            `What if ${idea1} was a magician, and ${idea2} was their assistant? 🎩✨`,
+            `What if ${idea1} and ${idea2} swapped superpowers? 💪🦸‍♀️`,
+            `Imagine ${idea1} and ${idea2} in a cooking competition. 🍴🍳`,
+            `What if ${idea1} and ${idea2} were stranded on a desert island together? 🏝️`,
+            `What if ${idea1} and ${idea2} ran a detective agency? 🕵️‍♂️🔍`,
+            `What if ${idea1} and ${idea2} competed in a dance-off? 💃🕺`,
+            `What if ${idea1} and ${idea2} could only speak in rhymes? 🎶`,
+            `What if ${idea1} and ${idea2} joined the circus? 🎪🤡`,
+            `What if ${idea1} and ${idea2} went to a haunted house? 🏚️👻`,
+            `Imagine ${idea1} and ${idea2} as famous explorers. 🌍🗺️`,
+            `What if ${idea1} and ${idea2} started a podcast? 🎙️🎧`,
+            `What if ${idea1} was the president of ${idea2}'s fan club? 🎉🏆`,
+            `What if ${idea1} and ${idea2} joined forces for a secret mission? 🕵️‍♂️🚨`,
+            `What if ${idea1} turned into a superhero to save ${idea2}? 🦸‍♂️🦸‍♀️`,
+            `What if ${idea1} and ${idea2} switched jobs for a day? 🏢📚`,
+            `What if ${idea1} and ${idea2} became world-famous dancers? 💃🕺`,
+            `What if ${idea1} created a food truck for ${idea2}? 🍴🚚`,
+            `What if ${idea1} was a pirate, and ${idea2} was their ship's captain? 🏴‍☠️🚢`,
+            `Imagine ${idea1} and ${idea2} in a comedy show. 🎤😂`,
+            `What if ${idea1} became ${idea2}'s personal assistant? 📝💼`,
+            `What if ${idea1} tried to prank ${idea2} on their birthday? 🎉🎂`,
+            `What if ${idea1} and ${idea2} invented a new sport? ⚽🏀`,
+            `What if ${idea1} and ${idea2} were secret agents on the same mission? 🕶️`,
+            `What if ${idea1} and ${idea2} became actors in the same movie? 🎬🎥`,
+            `What if ${idea1} and ${idea2} spent a week in a tiny house? 🏡`,
+            `What if ${idea1} and ${idea2} were competing in a race? 🏃‍♂️🏃‍♀️`,
+            `What if ${idea1} and ${idea2} tried to build a rocket? 🚀💡`,
+            `What if ${idea1} and ${idea2} went on a scavenger hunt? 🔍🗺️`,
+            `What if ${idea1} and ${idea2} started a YouTube channel? 🎥🎬`,
+            `What if ${idea1} and ${idea2} were siblings in a sitcom? 👦👧`,
+            `What if ${idea1} taught ${idea2} how to speak in riddles? 🧩`,
+            `What if ${idea1} and ${idea2} created their own theme park? 🎢🎠`,
+            `What if ${idea1} and ${idea2} were the first to land on Mars? 🚀🪐`,
+            `What if ${idea1} and ${idea2} were in a race to become the best chef? 🍳👩‍🍳`,
+            `What if ${idea1} and ${idea2} were the stars of their own reality show? 🎬📺`,
+            `What if ${idea1} and ${idea2} went to a comedy club together? 😂🎤`,
+            `What if ${idea1} and ${idea2} joined a band and became superstars? 🎶🎤`,
+            `What if ${idea1} and ${idea2} had to solve a mystery together? 🔍🕵️‍♂️`,
+            `What if ${idea1} and ${idea2} had their own bakery in Paris? 🍰🥐`,
+            `What if ${idea1} and ${idea2} traveled back in time to meet their ancestors? ⏳👵`,
+            `What if ${idea1} and ${idea2} tried to make a movie together? 🎥🎬`,
+            `What if ${idea1} could only speak in song lyrics, and ${idea2} had to understand? 🎤🎶`,
+            `What if ${idea1} and ${idea2} ran a carnival? 🎪🎉`,
+            `What if ${idea1} and ${idea2} became astronauts on the same mission? 🚀🌕`
         ];
 
         const whatIfScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
         document.getElementById("result").innerHTML = whatIfScenario;
     }
 </script>
+
+<footer>
+    <p>Made with ❤️ and chaos by <strong>MoeezAnwar</strong>!</p>
+    <p>Fork this project on <a href="https://github.com/MoeezAnwar" target="_blank">GitHub</a></p>
+</footer>
 
 </body>
 </html>
