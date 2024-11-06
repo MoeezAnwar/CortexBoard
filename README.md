@@ -34,6 +34,4 @@ If you'd like to run the project locally:
 ## License
 This project is open-source and can be used for educational or fun purposes. Feel free to contribute and improve the scenarios or design.
 
-## Contact
-For any inquiries, please reach out via email at [your-email@example.com].
 
