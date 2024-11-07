@@ -32,6 +32,24 @@
             z-index: -1;
         }
 
+        .mobile-popup {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            color: #ffeb3b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.5em;
+            text-align: center;
+            padding: 20px;
+            z-index: 2000;
+        }
+
         .container {
             width: 80%;
             max-width: 600px;
@@ -150,108 +168,127 @@
     </style>
 </head>
 <body>
+    <div class="mobile-popup" id="mobilePopup">
+        Uh-oh! 🚫 This site works best on a computer. Give it a whirl there for the full experience! 💻😉
+    </div>
+    <div class="container">
+        <h1>What If... Machine</h1>
+        <div id="purpose" class="purpose"></div>
 
-<div class="container">
-    <h1>What If... Machine</h1>
-    <div id="purpose" class="purpose"></div>
-    
-    <div class="input-group">
-        <label>Idea 1:</label>
-        <input type="text" id="idea1" placeholder="Enter your first idea">
+        <div class="input-group">
+            <label>Idea 1:</label>
+            <input type="text" id="idea1" placeholder="Enter your first idea">
+        </div>
+        <div class="input-group">
+            <label>Idea 2:</label>
+            <input type="text" id="idea2" placeholder="Enter your second idea">
+        </div>
+        <button class="generate-btn" onclick="generateWhatIf()">Generate What If!</button>
+        <div class="comic-bubble" id="result">
+            Your 'What If' scenario will appear here!
+        </div>
+        <!-- Popup for rapid clicks -->
+        <div class="popup" id="popup">
+            Hey, take it easy! The magic only works once a second... Give it a sec! 😂
+        </div>
     </div>
-    <div class="input-group">
-        <label>Idea 2:</label>
-        <input type="text" id="idea2" placeholder="Enter your second idea">
-    </div>
-    <button class="generate-btn" onclick="generateWhatIf()">Generate What If!</button>
-    <div class="comic-bubble" id="result">
-        Your 'What If' scenario will appear here!
-    </div>
-    <!-- Popup for rapid clicks -->
-    <div class="popup" id="popup">
-        Hey, take it easy! The magic only works once a second... Give it a sec! 😂
-    </div>
-</div>
 
-<script type="module">
-    class Purpose {
-        constructor(text) {
-            this.text = text;
-        }
-
-        display() {
-            const purposeElement = document.getElementById("purpose");
-            if (purposeElement) {
-                purposeElement.innerHTML = this.text;
+    <script type="module">
+        function checkMobile() {
+            const isMobile = window.matchMedia("(max-width: 768px)").matches;
+            const mobilePopup = document.getElementById("mobilePopup");
+            
+            if (isMobile) {
+                mobilePopup.style.display = "flex";
+            } else {
+                mobilePopup.style.display = "none";
             }
         }
-    }
 
-    const purposeText = "Ever wonder what would happen if your wackiest ideas collided? Enter two concepts, and the What If... Machine will spin them together for a fresh twist! The goal? Pure fun and maybe a little inspiration.";
-    const purposeInstance = new Purpose(purposeText);
-    purposeInstance.display();
-</script>
+        // Call the checkMobile function when the page loads and whenever the window is resized
+        checkMobile();
+        window.addEventListener("resize", checkMobile);
+    </script>
 
-<script>
-    let lastClickTime = 0;
-    const popup = document.getElementById("popup");
+    <script type="module">
+        class Purpose {
+            constructor(text) {
+                this.text = text;
+            }
 
-    function showPopup() {
-        popup.style.display = 'block';
-        setTimeout(() => {
-            popup.style.display = 'none';
-        }, 2000);
-    }
-
-    function correctSpelling(text) {
-        const wordDictionary = {
-            "space": "spice",
-            "chicken": "chimken",
-            "internet": "interwebs",
-            "science": "madness",
-            "cat": "kitteh",
-            "dog": "floof",
-            "pizza": "pizzazz",
-            "robot": "robodude",
-            "time": "thyme",
-            "computer": "magic box",
-            "alien": "little green dude",
-            "hero": "supah-hero",
-            "chef": "spatula wizard"
-        };
-        return text.split(" ").map(word => wordDictionary[word.toLowerCase()] || word).join(" ");
-    }
-
-    function generateWhatIf() {
-        const currentTime = Date.now();
-        
-        if (currentTime - lastClickTime < 1000) {
-            showPopup();
-            return;
-        }
-        
-        lastClickTime = currentTime;
-        
-        const idea1Input = document.getElementById("idea1");
-        const idea2Input = document.getElementById("idea2");
-
-        let idea1 = idea1Input.value.trim();
-        let idea2 = idea2Input.value.trim();
-
-        if (idea1 === "" || idea2 === "") {
-            document.getElementById("result").innerHTML = "🤔 Oops! You missed something! Enter both ideas to continue!";
-            return;
+            display() {
+                const purposeElement = document.getElementById("purpose");
+                if (purposeElement) {
+                    purposeElement.innerHTML = this.text;
+                }
+            }
         }
 
-        if (idea1 === idea2) {
-            document.getElementById("result").innerHTML = "😱 Hold up! These ideas are the SAME! Try some variety, buddy!";
-            return;
+        const purposeText = "Ever wonder what would happen if your wackiest ideas collided? Enter two concepts, and the What If... Machine will spin them together for a fresh twist! The goal? Pure fun and maybe a little inspiration.";
+        const purposeInstance = new Purpose(purposeText);
+        purposeInstance.display();
+    </script>
+
+    <script>
+        let lastClickTime = 0;
+        const popup = document.getElementById("popup");
+
+        function showPopup() {
+            popup.style.display = 'block';
+            setTimeout(() => {
+                popup.style.display = 'none';
+            }, 2000);
         }
 
-        idea1 = correctSpelling(idea1);
-        idea2 = correctSpelling(idea2);
+        function correctSpelling(text) {
+            const wordDictionary = {
+                "space": "spice",
+                "chicken": "chimken",
+                "internet": "interwebs",
+                "science": "madness",
+                "cat": "kitteh",
+                "dog": "floof",
+                "pizza": "pizzazz",
+                "robot": "robodude",
+                "time": "thyme",
+                "computer": "magic box",
+                "alien": "little green dude",
+                "hero": "supah-hero",
+                "chef": "spatula wizard"
+            };
+            return text.split(" ").map(word => wordDictionary[word.toLowerCase()] || word).join(" ");
+        }
 
-        const scenarios = [
+        function generateWhatIf() {
+            const currentTime = Date.now();
+            
+            if (currentTime - lastClickTime < 1000) {
+                showPopup();
+                return;
+            }
+            
+            lastClickTime = currentTime;
+            
+            const idea1Input = document.getElementById("idea1");
+            const idea2Input = document.getElementById("idea2");
+
+            let idea1 = idea1Input.value.trim();
+            let idea2 = idea2Input.value.trim();
+
+            if (idea1 === "" || idea2 === "") {
+                document.getElementById("result").innerHTML = "🤔 Oops! You missed something! Enter both ideas to continue!";
+                return;
+            }
+
+            if (idea1 === idea2) {
+                document.getElementById("result").innerHTML = "😱 Hold up! These ideas are the SAME! Try some variety, buddy!";
+                return;
+            }
+
+            idea1 = correctSpelling(idea1);
+            idea2 = correctSpelling(idea2);
+
+            const scenarios = [
             `What if ${idea1} and ${idea2} opened a bakery together? 🍞`,
             `What if ${idea1} was the ultimate dance partner for ${idea2}? 💃🕺`,
             `Imagine ${idea1} trying to give ${idea2} life advice. 🤔💡`,
@@ -327,16 +364,17 @@
             `What if ${idea1} and ${idea2} ran a carnival? 🎪🎉`,
             `What if ${idea1} and ${idea2} became astronauts on the same mission? 🚀🌕`
         ];
-
-        const whatIfScenario = scenarios[Math.floor(Math.random() * scenarios.length)];
-        document.getElementById("result").innerHTML = whatIfScenario;
-    }
-</script>
+            
+            const randomIndex = Math.floor(Math.random() * scenarios.length);
+            const scenario = scenarios[randomIndex];
+            
+            document.getElementById("result").innerHTML = scenario;
+        }
+    </script>
 
 <footer>
     <p>Made with ❤️ and chaos by <strong>MoeezAnwar</strong>!</p>
     <p>Fork this project on <a href="https://github.com/MoeezAnwar" target="_blank">GitHub</a></p>
 </footer>
-
 </body>
 </html>
